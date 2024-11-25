@@ -16,14 +16,14 @@ async function addTransaction(req, res) {
 
 async function get_AllTransactions(req, res) {
   try {
-    const { userId } = req.params;
+    const { userId } = req.query;
 
-    const userExist = await User.findOne(userId);
+    const userExist = await User.findById(userId);
+
     if (!userExist) {
       return res.status(404).json({ message: "User not found" });
     }
-    const transactions = await Transaction.find({ user: userExist._id });
-    console.log(transactions);
+    const transactions = await Transaction.find({ user: userId });
 
     if (!transactions) {
       return res
